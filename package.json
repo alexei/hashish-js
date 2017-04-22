@@ -1,0 +1,20 @@
+{
+  "name": "hashish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "author": "Alexandru Marasteanu <hello@alexei.ro>",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-mocha": "^4.3.0",
+    "jsdom": "^9.12.0",
+    "mocha": "^3.2.0",
+    "mocha-jsdom": "^1.1.0"
+  }
+}
