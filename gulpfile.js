@@ -15,4 +15,4 @@ gulp.task('test', () => {
         .pipe(mocha({reporter: 'nyan'}))
 })
 
-gulp.task('default', ['test', 'build'])
+gulp.task('default', ['build'])
