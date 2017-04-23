@@ -1,6 +1,15 @@
 function h(selector) {
     let {tag, id, classes} = h.parse_selector(selector)
-    return document.createElement(tag)
+    let node = document.createElement(tag)
+    let attrs = {
+        id: id
+    }
+    Object.keys(attrs).map(function(key) {
+        if (attrs[key]) {
+            node.setAttribute(key, attrs[key])
+        }
+    })
+    return node
 }
 
 h.parse_selector = (selector) => {
