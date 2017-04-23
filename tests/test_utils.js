@@ -49,3 +49,47 @@ describe('selector parser', () => {
         )
     })
 })
+
+describe('class names normalizer', () => {
+    it("should normalize a set of class names", () => {
+        assert.deepEqual(
+            {
+                foo: true
+            },
+            h.normalize_class_names('foo')
+        )
+
+        assert.deepEqual(
+            {
+                foo: true,
+                bar: true,
+                baz: true
+            },
+            h.normalize_class_names('foo bar  baz')
+        )
+
+        assert.deepEqual(
+            {
+                foo: true,
+                'bar-1': true
+            },
+            h.normalize_class_names(['foo', 'bar-' + 1])
+        )
+
+        assert.deepEqual(
+            {
+                foo: true,
+                bar: false
+            },
+            h.normalize_class_names({foo: true, bar: false})
+        )
+
+        assert.deepEqual(
+            {
+                foo: true,
+                bar: false
+            },
+            h.normalize_class_names({foo: 1, bar: 0})
+        )
+    })
+})
