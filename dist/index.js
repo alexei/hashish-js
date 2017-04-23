@@ -13,13 +13,13 @@ function h(selector) {
         classes = _h$parse_selector.classes;
 
     var node = document.createElement(tag);
+
     var attrs = {
         id: id,
-        className: classes.join(' ')
-    };
-    props.className = [attrs.className, props.className || ''].filter(function (classes) {
-        return !!classes.trim();
-    }).join(' ');
+        className: h.class_names(classes, props['class'] || {}, props.className || {})
+    };['class', 'className'].forEach(function (key) {
+        return delete props[key];
+    });
     Object.assign(attrs, props);
 
     Object.keys(attrs).map(function (key) {
@@ -34,6 +34,9 @@ function h(selector) {
     return node;
 }
 
+/**
+ * Selectors parser
+ */
 h.parse_selector = function (selector) {
     var result = {
         tag: 'div',
@@ -98,6 +101,9 @@ h.normalize_class_names = function (class_names) {
     }
 };
 
+/**
+ * Misc helpers
+ */
 function is_string(value) {
     return typeof value === 'string';
 }

@@ -1,13 +1,17 @@
 function h(selector, props={}) {
     let {tag, id, classes} = h.parse_selector(selector)
+
     let node = document.createElement(tag)
+
     let attrs = {
         id: id,
-        className: classes.join(' ')
+        className: h.class_names(
+            classes,
+            props['class'] || {},
+            props.className || {}
+        )
     }
-    props.className = [attrs.className, props.className || '']
-        .filter((classes) => !!classes.trim())
-        .join(' ')
+    ;['class', 'className'].forEach((key) => delete props[key])
     Object.assign(attrs, props)
 
     Object.keys(attrs).map((key) => {

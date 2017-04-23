@@ -46,5 +46,19 @@ describe('hashish', () => {
                 }
             ).outerHTML
         )
+
+        assert.equal(
+            '<div class="foo baz qux"></div>',
+            h(
+                '.foo',
+                {
+                    'class': ['bar', 'baz'],
+                    className: {
+                        bar: false,
+                        qux: true
+                    }
+                }
+            ).outerHTML
+        )
     })
 })
