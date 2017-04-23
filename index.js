@@ -23,6 +23,9 @@ function h(selector, props={}) {
     return node
 }
 
+/**
+ * Selectors parser
+ */
 h.parse_selector = (selector) => {
     let result = {
         tag: 'div',
@@ -45,6 +48,19 @@ h.parse_selector = (selector) => {
     }
 
     return result
+}
+
+/**
+ * Class names helpers
+ * Inspired by https://github.com/JedWatson/classnames
+ */
+h.class_names = (...args) => {
+    class_names = {}
+    Object.assign(class_names, ...args.map(h.normalize_class_names))
+    return Object
+        .keys(class_names)
+        .filter((class_name) => !!class_names[class_name])
+        .join(' ')
 }
 
 h.normalize_class_names = (class_names) => {
@@ -75,6 +91,9 @@ h.normalize_class_names = (class_names) => {
     }
 }
 
+/**
+ * Misc helpers
+ */
 function is_string(value) {
     return typeof value === 'string'
 }

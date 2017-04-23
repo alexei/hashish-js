@@ -50,7 +50,24 @@ describe('selector parser', () => {
     })
 })
 
-describe('class names normalizer', () => {
+describe('class names helpers', () => {
+    it("should return a list of class names", () => {
+        assert.equal(
+            'foo',
+            h.class_names('foo')
+        )
+
+        assert.equal(
+            'foo baz qux',
+            h.class_names('foo', ['bar', 'baz'], {bar: false, qux: true})
+        )
+
+        assert.equal(
+            '',
+            h.class_names('foo', ['bar', 'baz'], {foo: 0, bar: null, baz: undefined})
+        )
+    })
+
     it("should normalize a set of class names", () => {
         assert.deepEqual(
             {

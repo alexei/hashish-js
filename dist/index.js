@@ -2,6 +2,8 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function h(selector) {
     var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -54,12 +56,26 @@ h.parse_selector = function (selector) {
     return result;
 };
 
+/**
+ * Class names helpers
+ * Inspired by https://github.com/JedWatson/classnames
+ */
+h.class_names = function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+    }
+
+    class_names = {};
+    Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(h.normalize_class_names))));
+    return Object.keys(class_names).filter(function (class_name) {
+        return !!class_names[class_name];
+    }).join(' ');
+};
+
 h.normalize_class_names = function (class_names) {
     if (class_names) {
         if (is_string(class_names)) {
-            class_names = class_names.split(' ').filter(function (class_name) {
-                return !!class_name;
-            });
+            class_names = class_names.split(/\s+/);
         }
 
         if (is_array(class_names)) {
