@@ -5,7 +5,7 @@ const jsdom = require('mocha-jsdom')
 describe('hashish', () => {
     jsdom()
 
-    it("should return proper HTML code", () => {
+    it("should return proper node for simple selectors", () => {
         assert.equal(
             '<div></div>',
             h().outerHTML
@@ -15,7 +15,9 @@ describe('hashish', () => {
             '<br>',
             h('br').outerHTML
         )
+    })
 
+    it("should return proper node for mixed selectors", () => {
         assert.equal(
             '<div id="foo"></div>',
             h('#foo').outerHTML
@@ -29,6 +31,20 @@ describe('hashish', () => {
         assert.equal(
             '<div id="foo" class="bar"></div>',
             h('#foo.bar').outerHTML
+        )
+    })
+
+    it("should return proper node with attributes", () => {
+        assert.equal(
+            '<input id="foo" class="bar baz" type="email" placeholder="Email">',
+            h(
+                'input#foo.bar',
+                {
+                    className: 'baz',
+                    type: 'email',
+                    placeholder: "Email"
+                }
+            ).outerHTML
         )
     })
 })

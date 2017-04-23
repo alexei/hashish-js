@@ -1,6 +1,8 @@
 'use strict';
 
 function h(selector) {
+    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
     var _h$parse_selector = h.parse_selector(selector),
         tag = _h$parse_selector.tag,
         id = _h$parse_selector.id,
@@ -11,6 +13,11 @@ function h(selector) {
         id: id,
         className: classes.join(' ')
     };
+    props.className = [attrs.className, props.className || ''].filter(function (classes) {
+        return !!classes.trim();
+    }).join(' ');
+    Object.assign(attrs, props);
+
     Object.keys(attrs).map(function (key) {
         if (attrs[key]) {
             if (key == 'className') {

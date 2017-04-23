@@ -1,10 +1,15 @@
-function h(selector) {
+function h(selector, props={}) {
     let {tag, id, classes} = h.parse_selector(selector)
     let node = document.createElement(tag)
     let attrs = {
         id: id,
         className: classes.join(' ')
     }
+    props.className = [attrs.className, props.className || '']
+        .filter((classes) => !!classes.trim())
+        .join(' ')
+    Object.assign(attrs, props)
+
     Object.keys(attrs).map((key) => {
         if (attrs[key]) {
             if (key == 'className') {
