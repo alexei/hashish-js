@@ -5,7 +5,7 @@ function h(selector) {
         id: id,
         className: classes.join(' ')
     }
-    Object.keys(attrs).map(function(key) {
+    Object.keys(attrs).map((key) => {
         if (attrs[key]) {
             if (key == 'className') {
                 node.className = attrs[key]
