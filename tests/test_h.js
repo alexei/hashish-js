@@ -10,5 +10,10 @@ describe('hashish', () => {
             '<div></div>',
             h().outerHTML
         )
+
+        assert.equal(
+            '<br>',
+            h('br').outerHTML
+        )
     })
 })

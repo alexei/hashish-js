@@ -1,5 +1,6 @@
-function h() {
-    return document.createElement('div')
+function h(selector) {
+    let {tag, id, classes} = h.parse_selector(selector)
+    return document.createElement(tag)
 }
 
 h.parse_selector = (selector) => {
