@@ -1,5 +1,21 @@
-function h() {
-    return document.createElement('div')
+function h(selector) {
+    let {tag, id, classes} = h.parse_selector(selector)
+    let node = document.createElement(tag)
+    let attrs = {
+        id: id,
+        className: classes.join(' ')
+    }
+    Object.keys(attrs).map((key) => {
+        if (attrs[key]) {
+            if (key == 'className') {
+                node.className = attrs[key]
+            }
+            else {
+                node.setAttribute(key, attrs[key])
+            }
+        }
+    })
+    return node
 }
 
 h.parse_selector = (selector) => {

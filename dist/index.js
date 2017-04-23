@@ -1,7 +1,26 @@
 'use strict';
 
-function h() {
-    return document.createElement('div');
+function h(selector) {
+    var _h$parse_selector = h.parse_selector(selector),
+        tag = _h$parse_selector.tag,
+        id = _h$parse_selector.id,
+        classes = _h$parse_selector.classes;
+
+    var node = document.createElement(tag);
+    var attrs = {
+        id: id,
+        className: classes.join(' ')
+    };
+    Object.keys(attrs).map(function (key) {
+        if (attrs[key]) {
+            if (key == 'className') {
+                node.className = attrs[key];
+            } else {
+                node.setAttribute(key, attrs[key]);
+            }
+        }
+    });
+    return node;
 }
 
 h.parse_selector = function (selector) {
