@@ -20,5 +20,15 @@ describe('hashish', () => {
             '<div id="foo"></div>',
             h('#foo').outerHTML
         )
+
+        assert.equal(
+            '<div class="foo"></div>',
+            h('.foo').outerHTML
+        )
+
+        assert.equal(
+            '<div id="foo" class="bar"></div>',
+            h('#foo.bar').outerHTML
+        )
     })
 })
