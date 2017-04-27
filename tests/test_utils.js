@@ -6,8 +6,10 @@ describe('selector parser', () => {
         assert.deepEqual(
             {
                 tag: 'div',
-                id: null,
-                classes: []
+                attrs: {
+                    id: null,
+                    className: []
+                }
             },
             h.parse_selector()
         )
@@ -15,8 +17,10 @@ describe('selector parser', () => {
         assert.deepEqual(
             {
                 tag: 'div',
-                id: 'foo',
-                classes: []
+                attrs: {
+                    id: 'foo',
+                    className: []
+                }
             },
             h.parse_selector('#foo')
         )
@@ -24,8 +28,10 @@ describe('selector parser', () => {
         assert.deepEqual(
             {
                 tag: 'div',
-                id: null,
-                classes: ['foo']
+                attrs: {
+                    id: null,
+                    className: ['foo']
+                }
             },
             h.parse_selector('.foo')
         )
@@ -33,8 +39,10 @@ describe('selector parser', () => {
         assert.deepEqual(
             {
                 tag: 'div',
-                id: null,
-                classes: ['foo', 'bar']
+                attrs: {
+                    id: null,
+                    className: ['foo', 'bar']
+                }
             },
             h.parse_selector('.foo.bar')
         )
@@ -42,11 +50,32 @@ describe('selector parser', () => {
         assert.deepEqual(
             {
                 tag: 'svg:circle',
-                id: 'foo',
-                classes: ['-bar', '--baz']
+                attrs: {
+                    id: 'foo',
+                    className: ['-bar', '--baz']
+                }
             },
             h.parse_selector('svg:circle#foo.-bar.--baz')
         )
+    })
+
+    it("should correctly parse simple tag, class, id selectors", () => {
+        ;['button', 'checkbox', 'color', 'date', 'datetime-local', 'email',
+        'file', 'hidden', 'image', 'month', 'number', 'password', 'radio',
+        'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url',
+        'week'].forEach((type) => {
+            assert.deepEqual(
+                {
+                    tag: 'input',
+                    attrs: {
+                        id: null,
+                        className: [],
+                        type: type
+                    }
+                },
+                h.parse_selector(':' + type)
+            )
+        })
     })
 })
 

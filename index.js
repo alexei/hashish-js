@@ -3,18 +3,15 @@ function h(...args) {
     let props = args.find((item) => is_object(item) && !is_array(item)) || {}
     let children = args.find((item) => is_array(item)) || []
 
-    let {tag, id, classes} = h.parse_selector(selector)
+    let {tag, attrs} = h.parse_selector(selector)
 
     let node = document.createElement(tag)
 
-    let attrs = {
-        id: id,
-        className: h.class_names(
-            classes,
-            props['class'] || {},
-            props.className || {}
-        )
-    }
+    attrs.className = h.class_names(
+        attrs.className,
+        props['class'] || {},
+        props.className || {}
+    )
     ;['class', 'className'].forEach((key) => delete props[key])
     Object.assign(attrs, props)
 
@@ -53,20 +50,35 @@ function h(...args) {
 /**
  * Selectors parser
  */
+const pseudo_tags = [
+    'button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file',
+    'hidden', 'image', 'month', 'number', 'password', 'radio', 'range',
+    'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week']
 h.parse_selector = (selector) => {
     let result = {
         tag: 'div',
-        id: null,
-        classes: []
+        attrs: {
+            id: null,
+            className: []
+        }
     }
 
     let match
     while (selector) {
-        if (match = /^\.([^\.\#]+)/.exec(selector)) {
-            result.classes.push(match[1])
+        if (match = /^\.([^\.\#\:]+)/.exec(selector)) {
+            result.attrs.className.push(match[1])
         }
-        else if (match = /^\#([^\.\#]+)/.exec(selector)) {
-            result.id = match[1]
+        else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
+            result.attrs.id = match[1]
+        }
+        else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
+            if (pseudo_tags.indexOf(match[1]) > -1) {
+                result.tag = 'input'
+                result.attrs.type = match[1]
+            }
+            else {
+                throw new TypeError("Unknown pseudo-selector " + match[1] + ".")
+            }
         }
         else if (match = /^([^\.\#]+)/.exec(selector)) {
             result.tag = match[1]

@@ -21,15 +21,11 @@ function h() {
 
     var _h$parse_selector = h.parse_selector(selector),
         tag = _h$parse_selector.tag,
-        id = _h$parse_selector.id,
-        classes = _h$parse_selector.classes;
+        attrs = _h$parse_selector.attrs;
 
     var node = document.createElement(tag);
 
-    var attrs = {
-        id: id,
-        className: h.class_names(classes, props['class'] || {}, props.className || {})
-    };['class', 'className'].forEach(function (key) {
+    attrs.className = h.class_names(attrs.className, props['class'] || {}, props.className || {});['class', 'className'].forEach(function (key) {
         return delete props[key];
     });
     Object.assign(attrs, props);
@@ -65,19 +61,29 @@ function h() {
 /**
  * Selectors parser
  */
+var pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
 h.parse_selector = function (selector) {
     var result = {
         tag: 'div',
-        id: null,
-        classes: []
+        attrs: {
+            id: null,
+            className: []
+        }
     };
 
     var match = void 0;
     while (selector) {
-        if (match = /^\.([^\.\#]+)/.exec(selector)) {
-            result.classes.push(match[1]);
-        } else if (match = /^\#([^\.\#]+)/.exec(selector)) {
-            result.id = match[1];
+        if (match = /^\.([^\.\#\:]+)/.exec(selector)) {
+            result.attrs.className.push(match[1]);
+        } else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
+            result.attrs.id = match[1];
+        } else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
+            if (pseudo_tags.indexOf(match[1]) > -1) {
+                result.tag = 'input';
+                result.attrs.type = match[1];
+            } else {
+                throw new TypeError("Unknown pseudo-selector " + match[1] + ".");
+            }
         } else if (match = /^([^\.\#]+)/.exec(selector)) {
             result.tag = match[1];
         }

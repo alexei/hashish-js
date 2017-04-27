@@ -38,10 +38,9 @@ describe('hashish', () => {
         assert.equal(
             '<input id="foo" class="bar baz" type="email" placeholder="Email">',
             h(
-                'input#foo.bar',
+                ':email#foo.bar',
                 {
                     className: 'baz',
-                    type: 'email',
                     placeholder: "Email"
                 }
             ).outerHTML
@@ -63,12 +62,12 @@ describe('hashish', () => {
 
         assert.equal(
             '<input type="checkbox">',
-            h('input', {type: 'checkbox', checked: false}).outerHTML
+            h(':checkbox', {checked: false}).outerHTML
         )
 
         assert.equal(
-            '<input type="checkbox" checked="true">',
-            h('input', {type: 'checkbox', checked: true}).outerHTML
+            '<option selected="true"></option>',
+            h('option', {selected: true}).outerHTML
         )
 
         assert.equal(
