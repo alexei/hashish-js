@@ -60,5 +60,15 @@ describe('hashish', () => {
                 }
             ).outerHTML
         )
+
+        assert.equal(
+            '<input type="checkbox">',
+            h('input', {type: 'checkbox', checked: false}).outerHTML
+        )
+
+        assert.equal(
+            '<input type="checkbox" checked="true">',
+            h('input', {type: 'checkbox', checked: true}).outerHTML
+        )
     })
 })
