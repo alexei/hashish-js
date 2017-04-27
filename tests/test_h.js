@@ -70,5 +70,15 @@ describe('hashish', () => {
             '<input type="checkbox" checked="true">',
             h('input', {type: 'checkbox', checked: true}).outerHTML
         )
+
+        assert.equal(
+            '<div style="font-size: 12px; color: rgb(252, 0, 0);"></div>',
+            h({style: 'font-size: 12px; color: #fc0000;'}).outerHTML
+        )
+
+        assert.equal(
+            '<div style="font-size: 12px; color: rgb(252, 0, 0);"></div>',
+            h({style: {fontSize: '12px', color: '#fc0000'}}).outerHTML
+        )
     })
 })

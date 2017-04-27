@@ -24,6 +24,17 @@ function h(selector, props={}) {
             if (key == 'className') {
                 node.className = attrs[key]
             }
+            else if (key == 'style') {
+                if (is_string(attrs[key])) {
+                    node.style.cssText = attrs[key]
+                }
+                else if (is_object(attrs[key])) {
+                    Object.assign(node.style, attrs[key])
+                }
+                else {
+                    throw new TypeError("Expecting string or object for style attribute. Found " + (typeof attrs[key]) + ".")
+                }
+            }
             else {
                 node.setAttribute(key, attrs[key])
             }
