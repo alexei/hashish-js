@@ -81,4 +81,26 @@ describe('hashish', () => {
             h({style: {fontSize: '12px', color: '#fc0000'}}).outerHTML
         )
     })
+
+    it("should return proper node with children", () => {
+        assert.equal(
+            '<div>Hello world!</div>',
+            h(['Hello world!']).outerHTML
+        )
+
+        assert.equal(
+            '<div class="foo">Hello world!</div>',
+            h({className: 'foo'}, ['Hello world!']).outerHTML
+        )
+
+        assert.equal(
+            '<p>Hello world!</p>',
+            h('p', ['Hello world!']).outerHTML
+        )
+
+        assert.equal(
+            '<p>Hello <b>world</b>!</p>',
+            h('p', ['Hello ', h('b', ['world']), '!']).outerHTML
+        )
+    })
 })

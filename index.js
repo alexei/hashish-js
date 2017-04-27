@@ -1,8 +1,7 @@
-function h(selector, props={}) {
-    if (is_object(selector)) {
-        props = selector
-        selector = 'div'
-    }
+function h(...args) {
+    let selector = args.find((item) => is_string(item)) || ''
+    let props = args.find((item) => is_object(item) && !is_array(item)) || {}
+    let children = args.find((item) => is_array(item)) || []
 
     let {tag, id, classes} = h.parse_selector(selector)
 
@@ -40,6 +39,14 @@ function h(selector, props={}) {
             }
         }
     })
+
+    children.map((child) => {
+        if (is_string(child)) {
+            child = document.createTextNode(child)
+        }
+        node.appendChild(child)
+    })
+
     return node
 }
 
