@@ -1,4 +1,9 @@
 function h(selector, props={}) {
+    if (is_object(selector)) {
+        props = selector
+        selector = 'div'
+    }
+
     let {tag, id, classes} = h.parse_selector(selector)
 
     let node = document.createElement(tag)
