@@ -87,7 +87,7 @@ h.normalize_class_names = (class_names) => {
             return class_names
         }
         else {
-            throw new TypeError("Expecting string, array or object but found " + (typeof class_names))
+            throw new TypeError("Expecting string, array or object for class names. Found " + (typeof class_names) + ".")
         }
     }
     else {
