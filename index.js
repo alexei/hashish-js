@@ -37,14 +37,18 @@ function h(...args) {
         }
     })
 
+    h.render(node, ...children)
+
+    return node
+}
+
+h.render = function(root, ...children) {
     children.map((child) => {
         if (is_string(child)) {
             child = document.createTextNode(child)
         }
-        node.appendChild(child)
+        root.appendChild(child)
     })
-
-    return node
 }
 
 /**

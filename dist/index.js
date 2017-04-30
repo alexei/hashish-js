@@ -48,15 +48,23 @@ function h() {
         }
     });
 
+    h.render.apply(h, [node].concat(_toConsumableArray(children)));
+
+    return node;
+}
+
+h.render = function (root) {
+    for (var _len2 = arguments.length, children = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        children[_key2 - 1] = arguments[_key2];
+    }
+
     children.map(function (child) {
         if (is_string(child)) {
             child = document.createTextNode(child);
         }
-        node.appendChild(child);
+        root.appendChild(child);
     });
-
-    return node;
-}
+};
 
 /**
  * Selectors parser
@@ -98,8 +106,8 @@ h.parse_selector = function (selector) {
  * Inspired by https://github.com/JedWatson/classnames
  */
 h.class_names = function () {
-    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
     }
 
     class_names = {};
