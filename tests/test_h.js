@@ -125,10 +125,17 @@ describe('hashish', () => {
         }
 
         var dummy = document.createElement('div')
-        h.render(dummy, new ListComponent(['Alpha', 'Beta', 'Gamma']))
-
+        var list_component = new ListComponent(['Alpha', 'Beta', 'Gamma'])
+        h.render(dummy, list_component)
         assert.equal(
             '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li></ol>',
+            dummy.innerHTML
+        )
+
+        list_component.list = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon']
+        h.replace(dummy.children[0], list_component)
+        assert.equal(
+            '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li><li>Delta</li><li>Epsilon</li></ol>',
             dummy.innerHTML
         )
     })

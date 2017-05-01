@@ -54,6 +54,13 @@ h.render = function(root, ...children) {
     })
 }
 
+h.replace = function(node, child) {
+    if (is_object(child) && 'render' in child) {
+        child = child.render()
+    }
+    node.parentNode.replaceChild(child, node)
+}
+
 /**
  * Selectors parser
  */
