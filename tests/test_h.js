@@ -102,4 +102,34 @@ describe('hashish', () => {
             h('p', ['Hello ', h('b', ['world']), '!']).outerHTML
         )
     })
+
+    it("should properly render component", () => {
+        class ListComponent {
+            constructor(list) {
+                this.list = list
+            }
+
+            render() {
+                return h('ol', this.list.map((item) => new ItemComponent(item)))
+            }
+        }
+
+        class ItemComponent {
+            constructor(item) {
+                this.item = item
+            }
+
+            render() {
+                return h('li', [this.item])
+            }
+        }
+
+        var dummy = document.createElement('div')
+        h.render(dummy, new ListComponent(['Alpha', 'Beta', 'Gamma']))
+
+        assert.equal(
+            '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li></ol>',
+            dummy.innerHTML
+        )
+    })
 })

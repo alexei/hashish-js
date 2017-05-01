@@ -47,6 +47,9 @@ h.render = function(root, ...children) {
         if (is_string(child)) {
             child = document.createTextNode(child)
         }
+        else if (is_object(child) && 'render' in child) {
+            child = child.render()
+        }
         root.appendChild(child)
     })
 }
