@@ -108,7 +108,7 @@ h.parse_selector = (selector) => {
  * Inspired by https://github.com/JedWatson/classnames
  */
 h.class_names = (...args) => {
-    class_names = {}
+    let class_names = {}
     Object.assign(class_names, ...args.map(h.normalize_class_names))
     return Object
         .keys(class_names)

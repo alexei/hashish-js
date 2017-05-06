@@ -119,7 +119,7 @@ h.class_names = function () {
         args[_key3] = arguments[_key3];
     }
 
-    class_names = {};
+    var class_names = {};
     Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(h.normalize_class_names))));
     return Object.keys(class_names).filter(function (class_name) {
         return !!class_names[class_name];
