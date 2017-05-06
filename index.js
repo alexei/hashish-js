@@ -12,7 +12,7 @@ hashish.h = function(...args) {
     attrs.className = hashish.utils.class_names(
         attrs.className,
         props['class'] || {},
-        props.className || {}
+        props['className'] || {}
     )
     ;['class', 'className'].forEach((key) => delete props[key])
     Object.assign(attrs, props)
