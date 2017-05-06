@@ -1,7 +1,7 @@
 {
   "name": "hashish",
   "version": "1.0.0",
-  "description": "",
+  "description": "HyperScript for NodeJS and the browser",
   "main": "dist/index.js",
   "scripts": {
     "test": "gulp test"
