@@ -4,7 +4,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function h() {
+var hashish = {};
+
+hashish.h = function () {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
     }
@@ -19,13 +21,13 @@ function h() {
         return is_array(item);
     }) || [];
 
-    var _h$parse_selector = h.parse_selector(selector),
-        tag = _h$parse_selector.tag,
-        attrs = _h$parse_selector.attrs;
+    var _hashish$utils$parse_ = hashish.utils.parse_selector(selector),
+        tag = _hashish$utils$parse_.tag,
+        attrs = _hashish$utils$parse_.attrs;
 
     var node = document.createElement(tag);
 
-    attrs.className = h.class_names(attrs.className, props['class'] || {}, props.className || {});['class', 'className'].forEach(function (key) {
+    attrs.className = hashish.utils.class_names(attrs.className, props['class'] || {}, props.className || {});['class', 'className'].forEach(function (key) {
         return delete props[key];
     });
     Object.assign(attrs, props);
@@ -48,12 +50,12 @@ function h() {
         }
     });
 
-    h.render.apply(h, [node].concat(_toConsumableArray(children)));
+    hashish.render.apply(hashish, [node].concat(_toConsumableArray(children)));
 
     return node;
-}
+};
 
-h.render = function (root) {
+hashish.render = function (root) {
     for (var _len2 = arguments.length, children = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
         children[_key2 - 1] = arguments[_key2];
     }
@@ -68,7 +70,7 @@ h.render = function (root) {
     });
 };
 
-h.replace = function (node, child) {
+hashish.replace = function (node, child) {
     if (is_object(child) && 'render' in child) {
         child = child.render();
     }
@@ -78,8 +80,9 @@ h.replace = function (node, child) {
 /**
  * Selectors parser
  */
-var pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
-h.parse_selector = function (selector) {
+hashish.utils = {};
+hashish.utils.pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
+hashish.utils.parse_selector = function (selector) {
     var result = {
         tag: 'div',
         attrs: {
@@ -95,7 +98,7 @@ h.parse_selector = function (selector) {
         } else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
             result.attrs.id = match[1];
         } else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
-            if (pseudo_tags.indexOf(match[1]) > -1) {
+            if (hashish.utils.pseudo_tags.indexOf(match[1]) > -1) {
                 result.tag = 'input';
                 result.attrs.type = match[1];
             } else {
@@ -114,19 +117,20 @@ h.parse_selector = function (selector) {
  * Class names helpers
  * Inspired by https://github.com/JedWatson/classnames
  */
-h.class_names = function () {
+hashish.utils.class_names = function () {
+    var class_names = {};
+
     for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
         args[_key3] = arguments[_key3];
     }
 
-    var class_names = {};
-    Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(h.normalize_class_names))));
+    Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(hashish.utils.normalize_class_names))));
     return Object.keys(class_names).filter(function (class_name) {
         return !!class_names[class_name];
     }).join(' ');
 };
 
-h.normalize_class_names = function (class_names) {
+hashish.utils.normalize_class_names = function (class_names) {
     if (class_names) {
         if (is_string(class_names)) {
             class_names = class_names.split(/\s+/);
@@ -167,4 +171,4 @@ function is_object(value) {
     return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
 }
 
-module.exports = h;
+module.exports = hashish;

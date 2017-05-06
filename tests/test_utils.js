@@ -1,5 +1,6 @@
 const assert = require('assert')
-const h = require('../index.js')
+const hashish = require('../index.js')
+const utils = hashish.utils
 
 describe('selector parser', () => {
     it("should correctly parse simple tag, class, id selectors", () => {
@@ -11,7 +12,7 @@ describe('selector parser', () => {
                     className: []
                 }
             },
-            h.parse_selector()
+            utils.parse_selector()
         )
 
         assert.deepEqual(
@@ -22,7 +23,7 @@ describe('selector parser', () => {
                     className: []
                 }
             },
-            h.parse_selector('#foo')
+            utils.parse_selector('#foo')
         )
 
         assert.deepEqual(
@@ -33,7 +34,7 @@ describe('selector parser', () => {
                     className: ['foo']
                 }
             },
-            h.parse_selector('.foo')
+            utils.parse_selector('.foo')
         )
 
         assert.deepEqual(
@@ -44,7 +45,7 @@ describe('selector parser', () => {
                     className: ['foo', 'bar']
                 }
             },
-            h.parse_selector('.foo.bar')
+            utils.parse_selector('.foo.bar')
         )
 
         assert.deepEqual(
@@ -55,7 +56,7 @@ describe('selector parser', () => {
                     className: ['-bar', '--baz']
                 }
             },
-            h.parse_selector('svg:circle#foo.-bar.--baz')
+            utils.parse_selector('svg:circle#foo.-bar.--baz')
         )
     })
 
@@ -73,7 +74,7 @@ describe('selector parser', () => {
                         type: type
                     }
                 },
-                h.parse_selector(':' + type)
+                utils.parse_selector(':' + type)
             )
         })
     })
@@ -83,17 +84,17 @@ describe('class names helpers', () => {
     it("should return a list of class names", () => {
         assert.equal(
             'foo',
-            h.class_names('foo')
+            utils.class_names('foo')
         )
 
         assert.equal(
             'foo baz qux',
-            h.class_names('foo', ['bar', 'baz'], {bar: false, qux: true})
+            utils.class_names('foo', ['bar', 'baz'], {bar: false, qux: true})
         )
 
         assert.equal(
             '',
-            h.class_names('foo', ['bar', 'baz'], {foo: 0, bar: null, baz: undefined})
+            utils.class_names('foo', ['bar', 'baz'], {foo: 0, bar: null, baz: undefined})
         )
     })
 
@@ -102,7 +103,7 @@ describe('class names helpers', () => {
             {
                 foo: true
             },
-            h.normalize_class_names('foo')
+            utils.normalize_class_names('foo')
         )
 
         assert.deepEqual(
@@ -111,7 +112,7 @@ describe('class names helpers', () => {
                 bar: true,
                 baz: true
             },
-            h.normalize_class_names('foo bar  baz')
+            utils.normalize_class_names('foo bar  baz')
         )
 
         assert.deepEqual(
@@ -119,7 +120,7 @@ describe('class names helpers', () => {
                 foo: true,
                 'bar-1': true
             },
-            h.normalize_class_names(['foo', 'bar-' + 1])
+            utils.normalize_class_names(['foo', 'bar-' + 1])
         )
 
         assert.deepEqual(
@@ -127,7 +128,7 @@ describe('class names helpers', () => {
                 foo: true,
                 bar: false
             },
-            h.normalize_class_names({foo: true, bar: false})
+            utils.normalize_class_names({foo: true, bar: false})
         )
 
         assert.deepEqual(
@@ -135,7 +136,7 @@ describe('class names helpers', () => {
                 foo: true,
                 bar: false
             },
-            h.normalize_class_names({foo: 1, bar: 0})
+            utils.normalize_class_names({foo: 1, bar: 0})
         )
     })
 })

@@ -1,13 +1,15 @@
-function h(...args) {
+const hashish = {}
+
+hashish.h = function(...args) {
     let selector = args.find((item) => is_string(item)) || ''
     let props = args.find((item) => is_object(item) && !is_array(item)) || {}
     let children = args.find((item) => is_array(item)) || []
 
-    let {tag, attrs} = h.parse_selector(selector)
+    let {tag, attrs} = hashish.utils.parse_selector(selector)
 
     let node = document.createElement(tag)
 
-    attrs.className = h.class_names(
+    attrs.className = hashish.utils.class_names(
         attrs.className,
         props['class'] || {},
         props.className || {}
@@ -37,12 +39,12 @@ function h(...args) {
         }
     })
 
-    h.render(node, ...children)
+    hashish.render(node, ...children)
 
     return node
 }
 
-h.render = function(root, ...children) {
+hashish.render = function(root, ...children) {
     children.map((child) => {
         if (is_string(child)) {
             child = document.createTextNode(child)
@@ -54,7 +56,7 @@ h.render = function(root, ...children) {
     })
 }
 
-h.replace = function(node, child) {
+hashish.replace = function(node, child) {
     if (is_object(child) && 'render' in child) {
         child = child.render()
     }
@@ -64,11 +66,12 @@ h.replace = function(node, child) {
 /**
  * Selectors parser
  */
-const pseudo_tags = [
+hashish.utils = {}
+hashish.utils.pseudo_tags = [
     'button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file',
     'hidden', 'image', 'month', 'number', 'password', 'radio', 'range',
     'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week']
-h.parse_selector = (selector) => {
+hashish.utils.parse_selector = (selector) => {
     let result = {
         tag: 'div',
         attrs: {
@@ -86,7 +89,7 @@ h.parse_selector = (selector) => {
             result.attrs.id = match[1]
         }
         else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
-            if (pseudo_tags.indexOf(match[1]) > -1) {
+            if (hashish.utils.pseudo_tags.indexOf(match[1]) > -1) {
                 result.tag = 'input'
                 result.attrs.type = match[1]
             }
@@ -107,16 +110,16 @@ h.parse_selector = (selector) => {
  * Class names helpers
  * Inspired by https://github.com/JedWatson/classnames
  */
-h.class_names = (...args) => {
+hashish.utils.class_names = function(...args) {
     let class_names = {}
-    Object.assign(class_names, ...args.map(h.normalize_class_names))
+    Object.assign(class_names, ...args.map(hashish.utils.normalize_class_names))
     return Object
         .keys(class_names)
         .filter((class_name) => !!class_names[class_name])
         .join(' ')
 }
 
-h.normalize_class_names = (class_names) => {
+hashish.utils.normalize_class_names = function(class_names) {
     if (class_names) {
         if (is_string(class_names)) {
             class_names = class_names.split(/\s+/)
@@ -159,4 +162,4 @@ function is_object(value) {
     return typeof value === 'object'
 }
 
-module.exports = h
+module.exports = hashish

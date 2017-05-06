@@ -1,5 +1,6 @@
 const assert = require('assert')
-const h = require('../index.js')
+const hashish = require('../index.js')
+const h = hashish.h
 const jsdom = require('mocha-jsdom')
 
 describe('hashish', () => {
@@ -126,14 +127,14 @@ describe('hashish', () => {
 
         var dummy = document.createElement('div')
         var list_component = new ListComponent(['Alpha', 'Beta', 'Gamma'])
-        h.render(dummy, list_component)
+        hashish.render(dummy, list_component)
         assert.equal(
             '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li></ol>',
             dummy.innerHTML
         )
 
         list_component.list = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon']
-        h.replace(dummy.children[0], list_component)
+        hashish.replace(dummy.children[0], list_component)
         assert.equal(
             '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li><li>Delta</li><li>Epsilon</li></ol>',
             dummy.innerHTML
