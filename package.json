@@ -2,7 +2,7 @@
   "name": "hashish",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "gulp test"
   },
@@ -13,6 +13,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-mocha": "^4.3.0",
+    "gulp-umd": "^0.2.1",
     "jsdom": "^9.12.0",
     "mocha": "^3.2.0",
     "mocha-jsdom": "^1.1.0"

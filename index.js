@@ -161,5 +161,3 @@ function is_array(value) {
 function is_object(value) {
     return typeof value === 'object'
 }
-
-module.exports = hashish

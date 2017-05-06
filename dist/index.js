@@ -1,3 +1,12 @@
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.hashish = factory();
+  }
+}(this, function() {
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -170,5 +179,5 @@ function is_array(value) {
 function is_object(value) {
     return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
 }
-
-module.exports = hashish;
+return hashish;
+}));
