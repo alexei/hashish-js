@@ -1,8 +1,14 @@
-const gulp = require('gulp')
 const babel = require('gulp-babel')
-const mocha = require('gulp-mocha')
-const umd = require('gulp-umd')
+const banner = '/*! <%= pkg.name %> <%= pkg.version %> | Copyright (c) 2017-present, <%= pkg.author %> | <%= pkg.license %> */\n'
 const eslint = require('gulp-eslint')
+const gulp = require('gulp')
+const header = require('gulp-header')
+const mocha = require('gulp-mocha')
+const pkg = require('./package.json')
+const rename = require('gulp-rename')
+const sourcemaps = require('gulp-sourcemaps')
+const uglify = require('gulp-uglify')
+const umd = require('gulp-umd')
 
 gulp.task('lint', function() {
     return gulp
@@ -25,6 +31,11 @@ gulp.task('build', ['lint'], function() {
             },
             templateName: 'amdNodeWeb'
         }))
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(header(banner, {pkg: pkg}))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'))
 })
 
