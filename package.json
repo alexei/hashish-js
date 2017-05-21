@@ -1,6 +1,6 @@
 {
-  "name": "hashish",
-  "version": "1.0.0",
+  "name": "@alexei/hashish",
+  "version": "1.0.1",
   "description": "HyperScript for NodeJS and the browser",
   "main": "index.js",
   "scripts": {

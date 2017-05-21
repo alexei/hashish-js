@@ -4,7 +4,7 @@ HyperScript template language for JavaScript.
 
 ## Example
 
-    const hashish = require('hashish')(document)
+    const hashish = require('@alexei/hashish')(document)
     const h = hashish.createElement
 
     h('form', {action: '/auth', method: 'post'}, [
