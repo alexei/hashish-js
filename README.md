@@ -17,10 +17,7 @@ HyperScript template language for JavaScript.
         h(':password.form-control#auth-password', {placeholder: "Password"})
       ]),
       h('.checkbox', [
-        h('label', [
-          h(':checkbox', {name: 'remember_me'}),
-          "Keep me logged in"
-        ])
+        h('label', [h(':checkbox', {name: 'remember_me'}), "Keep me logged in"])
       ]),
       h(':submit.btn btn-default', {value: "Log in"})
     ])
