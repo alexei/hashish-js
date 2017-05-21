@@ -104,88 +104,81 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var types = __webpack_require__(0);
 var utils = __webpack_require__(3);
 
-var hashish = Object.create(null);
-
-hashish.document = null;
-
-hashish.createElement = function () {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-    }
-
-    var selector = args.find(function (item) {
-        return types.isString(item);
-    }) || '';
-    var props = args.find(function (item) {
-        return types.isObject(item) && !types.isArray(item);
-    }) || {};
-    var children = args.find(function (item) {
-        return types.isArray(item);
-    }) || [];
-
-    var _utils$parse_selector = utils.parse_selector(selector),
-        tag = _utils$parse_selector.tag,
-        attrs = _utils$parse_selector.attrs;
-
-    var node = hashish.document.createElement(tag);
-
-    attrs.className = utils.class_names(attrs.className, props.class || {}, props.className || {});['class', 'className'].forEach(function (key) {
-        return delete props[key];
-    });
-    Object.assign(attrs, props);
-
-    Object.keys(attrs).map(function (key) {
-        if (attrs[key]) {
-            if (key == 'className') {
-                node.className = attrs[key];
-            } else if (key == 'style') {
-                if (types.isString(attrs[key])) {
-                    node.style.cssText = attrs[key];
-                } else if (types.isObject(attrs[key])) {
-                    Object.assign(node.style, attrs[key]);
-                } else {
-                    throw new TypeError("Expecting string or object for style attribute. Found " + _typeof(attrs[key]) + ".");
-                }
-            } else {
-                node.setAttribute(key, attrs[key]);
-            }
+module.exports = function makeHashish(document) {
+    function createElement() {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
         }
-    });
 
-    hashish.render.apply(hashish, [node].concat(_toConsumableArray(children)));
+        var selector = args.find(function (item) {
+            return types.isString(item);
+        }) || '';
+        var props = args.find(function (item) {
+            return types.isObject(item) && !types.isArray(item);
+        }) || {};
+        var children = args.find(function (item) {
+            return types.isArray(item);
+        }) || [];
 
-    return node;
-};
+        var _utils$parse_selector = utils.parse_selector(selector),
+            tag = _utils$parse_selector.tag,
+            attrs = _utils$parse_selector.attrs;
 
-hashish.render = function (root) {
-    for (var _len2 = arguments.length, children = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        children[_key2 - 1] = arguments[_key2];
+        var node = document.createElement(tag);
+
+        attrs.className = utils.class_names(attrs.className, props.class || {}, props.className || {});['class', 'className'].forEach(function (key) {
+            return delete props[key];
+        });
+        Object.assign(attrs, props);
+
+        Object.keys(attrs).map(function (key) {
+            if (attrs[key]) {
+                if (key == 'className') {
+                    node.className = attrs[key];
+                } else if (key == 'style') {
+                    if (types.isString(attrs[key])) {
+                        node.style.cssText = attrs[key];
+                    } else if (types.isObject(attrs[key])) {
+                        Object.assign(node.style, attrs[key]);
+                    } else {
+                        throw new TypeError("Expecting string or object for style attribute. Found " + _typeof(attrs[key]) + ".");
+                    }
+                } else {
+                    node.setAttribute(key, attrs[key]);
+                }
+            }
+        });
+
+        render.apply(undefined, [node].concat(_toConsumableArray(children)));
+
+        return node;
     }
 
-    children.map(function (child) {
-        if (types.isString(child)) {
-            child = hashish.document.createTextNode(child);
-        } else if (types.isObject(child) && 'render' in child) {
+    function render(root) {
+        for (var _len2 = arguments.length, children = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+            children[_key2 - 1] = arguments[_key2];
+        }
+
+        children.map(function (child) {
+            if (types.isString(child)) {
+                child = document.createTextNode(child);
+            } else if (types.isObject(child) && 'render' in child) {
+                child = child.render();
+            }
+            if (child) {
+                root.appendChild(child);
+            }
+        });
+    }
+
+    function replace(node, child) {
+        if (types.isObject(child) && 'render' in child) {
             child = child.render();
         }
-        if (child) {
-            root.appendChild(child);
-        }
-    });
-};
-
-hashish.replace = function (node, child) {
-    if (types.isObject(child) && 'render' in child) {
-        child = child.render();
+        node.parentNode.replaceChild(child, node);
     }
-    node.parentNode.replaceChild(child, node);
-};
 
-module.exports = function () {
-    var document = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.document;
-
-    hashish.document = document;
-    return hashish;
+    return { createElement: createElement, render: render, replace: replace };
 };
 
 /***/ }),
