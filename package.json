@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
-    "lint": "./node_modules/.bin/eslint --config .eslintrc.js index.js",
+    "lint": "./node_modules/.bin/eslint --config .eslintrc.js index.js src/**.js",
     "test": "./node_modules/.bin/mocha"
   },
   "author": "Alexandru Marasteanu <hello@alexei.ro>",
