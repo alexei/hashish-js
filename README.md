@@ -104,7 +104,7 @@ Or an object:
 
 #### Children
 
-A child can either be a string, an `HTMLElement`, or any other object that implements a `render` and returns a value of a similar type:
+A child can either be a string, an `HTMLElement`, or any other object that implements a `render` method and returns a value of a similar type:
 
     class List {
       constructor(list) {
