@@ -50,23 +50,23 @@ Creates a new `HTMLElement`.
 The `tag` argument specifies the tag name, a list of class names, an ID and possibly a type if one intends to create input tags. If left empty, it defaults to `div`.
 
     h('')
-    > <div></div>
+    => <div></div>
 
     h('.foo.bar#baz')
-    > <div class="foo bar" id="baz"></div>
+    => <div class="foo bar" id="baz"></div>
 
     h(':email')
-    > <input type="email">
+    => <input type="email">
 
 The `attrs` argument allows one to specify a dictionary of attributes the resulting node should have:
 
     h('form', {method: 'post'})
-    > <form method="post"></form>
+    => <form method="post"></form>
 
 Any value that evaluates to `false` will be omitted:
 
     h(':checkbox', {checked: false})
-    > <input type="checkbox">
+    => <input type="checkbox">
 
 The `children` argument represents an array of children that should be appended to the resulting node. See explanation on [children](#children) below.
 
@@ -81,26 +81,26 @@ Additionally, the following nonstandard pseudo-elements are supported: `:button`
 One would write:
 
     h(':number')
-    > <input type="number">
+    => <input type="number">
 
 #### Class names
 
 Class names can be specified alongside the `tag` name or in the `attrs` argument. The `class` (or `className`) attribute can either be string:
 
     h('.foo', {class: 'bar baz'})
-    > <div class="foo bar baz"></div>
+    => <div class="foo bar baz"></div>
 
 An array:
 
     var bazClass = 'baz'
     h('div.foo', {class: ['bar', bazClass]})
-    > <div class="foo bar baz"></div>
+    => <div class="foo bar baz"></div>
 
 Or an object:
 
     var includeBaz = false
     h('.foo.bar', {class: {baz: includeBaz})
-    > <div class="foo bar"></div>
+    => <div class="foo bar"></div>
 
 #### Children
 
