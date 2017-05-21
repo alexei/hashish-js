@@ -4,9 +4,9 @@
   "description": "HyperScript for NodeJS and the browser",
   "main": "dist/index.js",
   "scripts": {
-    "test": "gulp test",
+    "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "lint": "./node_modules/.bin/eslint --config .eslintrc.js index.js",
-    "build": "./node_modules/.bin/webpack --config webpack.config.js"
+    "test": "./node_modules/.bin/mocha"
   },
   "author": "Alexandru Marasteanu <hello@alexei.ro>",
   "license": "BSD-3-Clause",
