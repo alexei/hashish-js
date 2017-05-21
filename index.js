@@ -1,6 +1,6 @@
 const hashish = {}
 
-hashish.h = function(...args) {
+hashish.createElement = function(...args) {
     let selector = args.find((item) => is_string(item)) || ''
     let props = args.find((item) => is_object(item) && !is_array(item)) || {}
     let children = args.find((item) => is_array(item)) || []
