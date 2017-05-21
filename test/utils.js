@@ -1,5 +1,5 @@
 const assert = require('assert')
-const hashish = require('../dist/index.js')
+const hashish = require('../index.js')
 const utils = hashish.utils
 
 describe('selector parser', () => {
