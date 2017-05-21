@@ -1,10 +1,11 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
     entry: './index.js',
     output: {
-        filename: 'hashish.js',
+        filename: 'hashish.min.js',
         path: path.resolve(__dirname, 'dist'),
         library: 'hashish'
     },
@@ -22,6 +23,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new UglifyJSPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+        new UnminifiedWebpackPlugin()
     ]
 }
