@@ -10,8 +10,8 @@ module.exports = {
         'no-cond-assign': 0,
         'no-console': 0,
         'no-control-regex': 0,
-        'no-undef': 0,
-        'no-unused-vars': 0,
+        'no-undef': "error",
+        'no-unused-vars': "error",
         'semi': ['error', 'never']
     }
 }
