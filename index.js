@@ -52,7 +52,9 @@ hashish.render = function(root, ...children) {
         else if (is_object(child) && 'render' in child) {
             child = child.render()
         }
-        root.appendChild(child)
+        if (child) {
+            root.appendChild(child)
+        }
     })
 }
 

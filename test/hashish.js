@@ -121,12 +121,17 @@ describe('hashish', () => {
             }
 
             render() {
-                return h('li', [this.item])
+                if (this.item) {
+                    return h('li', [this.item])
+                }
+                else {
+                    return false
+                }
             }
         }
 
         var dummy = document.createElement('div')
-        var list_component = new ListComponent(['Alpha', 'Beta', 'Gamma'])
+        var list_component = new ListComponent(['Alpha', 'Beta', '', 'Gamma'])
         hashish.render(dummy, list_component)
         assert.equal(
             '<ol><li>Alpha</li><li>Beta</li><li>Gamma</li></ol>',
