@@ -45,7 +45,7 @@ Hashish should run in any environment where a DOM implementation is available. I
 
 ### createElement(tag[, attrs[, children]])
 
-Creates a new `HTMLElement`.
+Creates and returns a new `HTMLElement`.
 
 The `tag` argument specifies the tag name, a list of class names, an ID and possibly a type if one intends to create input tags. If left empty, it defaults to `div`.
 
