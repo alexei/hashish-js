@@ -76,12 +76,12 @@ Hashish supports tag (defaults to `div`), class and ID selectors.
 
 Additionally, the following nonstandard pseudo-elements are supported: `:button`, `:checkbox`, `:color`, `:date`, `:datetime-local`, `:email`, `:file`, `:hidden`, `:image`, `:month`, `:number`, `:password`, `:radio`, `:range`, `:reset`, `:search`, `:submit`, `:tel`, `:text`, `:time`, `:url`, `:week`. Each results in an `input` tag with the appropriate `type` attribute. They are provided as syntactic sugar i.e. instead of:
 
-  h('input', {type: 'number'})
+    h('input', {type: 'number'})
 
 One would write:
 
-  h(':number')
-  > <input type="number">
+    h(':number')
+    > <input type="number">
 
 #### Class names
 
