@@ -2,7 +2,7 @@
   "name": "hashish",
   "version": "1.0.0",
   "description": "HyperScript for NodeJS and the browser",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "lint": "./node_modules/.bin/eslint --config .eslintrc.js index.js src/**.js",
