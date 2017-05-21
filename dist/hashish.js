@@ -104,7 +104,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var types = __webpack_require__(0);
 var utils = __webpack_require__(3);
 
-var hashish = {};
+var hashish = Object.create(null);
+
+hashish.document = null;
 
 hashish.createElement = function () {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -125,7 +127,7 @@ hashish.createElement = function () {
         tag = _utils$parse_selector.tag,
         attrs = _utils$parse_selector.attrs;
 
-    var node = document.createElement(tag);
+    var node = hashish.document.createElement(tag);
 
     attrs.className = utils.class_names(attrs.className, props.class || {}, props.className || {});['class', 'className'].forEach(function (key) {
         return delete props[key];
@@ -162,7 +164,7 @@ hashish.render = function (root) {
 
     children.map(function (child) {
         if (types.isString(child)) {
-            child = document.createTextNode(child);
+            child = hashish.document.createTextNode(child);
         } else if (types.isObject(child) && 'render' in child) {
             child = child.render();
         }
@@ -179,7 +181,12 @@ hashish.replace = function (node, child) {
     node.parentNode.replaceChild(child, node);
 };
 
-module.exports = hashish;
+module.exports = function () {
+    var document = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.document;
+
+    hashish.document = document;
+    return hashish;
+};
 
 /***/ }),
 /* 2 */

@@ -1,11 +1,11 @@
 const assert = require('assert')
-const hashish = require('../src/hashish')
+const jsdom = require('jsdom')
+const {JSDOM} = jsdom
+const {document} = (new JSDOM('')).window
+const hashish = require('../src/hashish')(document)
 const h = hashish.createElement
-const jsdom = require('mocha-jsdom')
 
 describe('hashish', () => {
-    jsdom()
-
     it("should return proper node for simple selectors", () => {
         assert.equal(
             '<div></div>',

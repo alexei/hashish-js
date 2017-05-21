@@ -1,7 +1,9 @@
 const types = require('./types')
 const utils = require('./utils')
 
-const hashish = {}
+const hashish = Object.create(null)
+
+hashish.document = null
 
 hashish.createElement = function(...args) {
     let selector = args.find((item) => types.isString(item)) || ''
@@ -10,7 +12,7 @@ hashish.createElement = function(...args) {
 
     let {tag, attrs} = utils.parse_selector(selector)
 
-    let node = document.createElement(tag)
+    let node = hashish.document.createElement(tag)
 
     attrs.className = utils.class_names(
         attrs.className,
@@ -50,7 +52,7 @@ hashish.createElement = function(...args) {
 hashish.render = function(root, ...children) {
     children.map((child) => {
         if (types.isString(child)) {
-            child = document.createTextNode(child)
+            child = hashish.document.createTextNode(child)
         }
         else if (types.isObject(child) && 'render' in child) {
             child = child.render()
@@ -68,4 +70,7 @@ hashish.replace = function(node, child) {
     node.parentNode.replaceChild(child, node)
 }
 
-module.exports = hashish
+module.exports = function(document = this.document) {
+    hashish.document = document
+    return hashish
+}
