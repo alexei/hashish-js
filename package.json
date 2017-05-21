@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "gulp test",
+    "lint": "./node_modules/.bin/eslint --config .eslintrc.js index.js",
     "build": "./node_modules/.bin/webpack --config webpack.config.js"
   },
   "author": "Alexandru Marasteanu <hello@alexei.ro>",
