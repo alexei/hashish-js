@@ -1,7 +1,7 @@
 ## 1.0.2 (NOT YET RELEASED)
 
 * This CHANGELOG
-* Update example and instructions in README file
+* Update instructions and examples in README file
 
 ## 1.0.1 (2017-05-21)
 
