@@ -1,9 +1,10 @@
+const types = require('./types')
 const hashish = {}
 
 hashish.createElement = function(...args) {
-    let selector = args.find((item) => is_string(item)) || ''
-    let props = args.find((item) => is_object(item) && !is_array(item)) || {}
-    let children = args.find((item) => is_array(item)) || []
+    let selector = args.find((item) => types.isString(item)) || ''
+    let props = args.find((item) => types.isObject(item) && !types.isArray(item)) || {}
+    let children = args.find((item) => types.isArray(item)) || []
 
     let {tag, attrs} = hashish.utils.parse_selector(selector)
 
@@ -23,10 +24,10 @@ hashish.createElement = function(...args) {
                 node.className = attrs[key]
             }
             else if (key == 'style') {
-                if (is_string(attrs[key])) {
+                if (types.isString(attrs[key])) {
                     node.style.cssText = attrs[key]
                 }
-                else if (is_object(attrs[key])) {
+                else if (types.isObject(attrs[key])) {
                     Object.assign(node.style, attrs[key])
                 }
                 else {
@@ -46,10 +47,10 @@ hashish.createElement = function(...args) {
 
 hashish.render = function(root, ...children) {
     children.map((child) => {
-        if (is_string(child)) {
+        if (types.isString(child)) {
             child = document.createTextNode(child)
         }
-        else if (is_object(child) && 'render' in child) {
+        else if (types.isObject(child) && 'render' in child) {
             child = child.render()
         }
         if (child) {
@@ -59,7 +60,7 @@ hashish.render = function(root, ...children) {
 }
 
 hashish.replace = function(node, child) {
-    if (is_object(child) && 'render' in child) {
+    if (types.isObject(child) && 'render' in child) {
         child = child.render()
     }
     node.parentNode.replaceChild(child, node)
@@ -123,18 +124,18 @@ hashish.utils.class_names = function(...args) {
 
 hashish.utils.normalize_class_names = function(class_names) {
     if (class_names) {
-        if (is_string(class_names)) {
+        if (types.isString(class_names)) {
             class_names = class_names.split(/\s+/)
         }
 
-        if (is_array(class_names)) {
+        if (types.isArray(class_names)) {
             return class_names.reduce((ret, class_name) => {
                 ret[class_name.trim()] = true
                 return ret
             }, {})
         }
 
-        if (is_object(class_names)) {
+        if (types.isObject(class_names)) {
             Object.keys(class_names).forEach((class_name) => {
                 class_names[class_name] = !!class_names[class_name]
             })
@@ -147,21 +148,6 @@ hashish.utils.normalize_class_names = function(class_names) {
     else {
         return {}
     }
-}
-
-/**
- * Misc helpers
- */
-function is_string(value) {
-    return typeof value === 'string'
-}
-
-function is_array(value) {
-    return Array.isArray(value)
-}
-
-function is_object(value) {
-    return typeof value === 'object'
 }
 
 module.exports = hashish

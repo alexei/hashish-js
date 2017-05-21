@@ -78,6 +78,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var types = __webpack_require__(2);
 var hashish = {};
 
 hashish.createElement = function () {
@@ -86,13 +87,13 @@ hashish.createElement = function () {
     }
 
     var selector = args.find(function (item) {
-        return is_string(item);
+        return types.isString(item);
     }) || '';
     var props = args.find(function (item) {
-        return is_object(item) && !is_array(item);
+        return types.isObject(item) && !types.isArray(item);
     }) || {};
     var children = args.find(function (item) {
-        return is_array(item);
+        return types.isArray(item);
     }) || [];
 
     var _hashish$utils$parse_ = hashish.utils.parse_selector(selector),
@@ -111,9 +112,9 @@ hashish.createElement = function () {
             if (key == 'className') {
                 node.className = attrs[key];
             } else if (key == 'style') {
-                if (is_string(attrs[key])) {
+                if (types.isString(attrs[key])) {
                     node.style.cssText = attrs[key];
-                } else if (is_object(attrs[key])) {
+                } else if (types.isObject(attrs[key])) {
                     Object.assign(node.style, attrs[key]);
                 } else {
                     throw new TypeError("Expecting string or object for style attribute. Found " + _typeof(attrs[key]) + ".");
@@ -135,9 +136,9 @@ hashish.render = function (root) {
     }
 
     children.map(function (child) {
-        if (is_string(child)) {
+        if (types.isString(child)) {
             child = document.createTextNode(child);
-        } else if (is_object(child) && 'render' in child) {
+        } else if (types.isObject(child) && 'render' in child) {
             child = child.render();
         }
         if (child) {
@@ -147,7 +148,7 @@ hashish.render = function (root) {
 };
 
 hashish.replace = function (node, child) {
-    if (is_object(child) && 'render' in child) {
+    if (types.isObject(child) && 'render' in child) {
         child = child.render();
     }
     node.parentNode.replaceChild(child, node);
@@ -208,18 +209,18 @@ hashish.utils.class_names = function () {
 
 hashish.utils.normalize_class_names = function (class_names) {
     if (class_names) {
-        if (is_string(class_names)) {
+        if (types.isString(class_names)) {
             class_names = class_names.split(/\s+/);
         }
 
-        if (is_array(class_names)) {
+        if (types.isArray(class_names)) {
             return class_names.reduce(function (ret, class_name) {
                 ret[class_name.trim()] = true;
                 return ret;
             }, {});
         }
 
-        if (is_object(class_names)) {
+        if (types.isObject(class_names)) {
             Object.keys(class_names).forEach(function (class_name) {
                 class_names[class_name] = !!class_names[class_name];
             });
@@ -232,21 +233,6 @@ hashish.utils.normalize_class_names = function (class_names) {
     }
 };
 
-/**
- * Misc helpers
- */
-function is_string(value) {
-    return typeof value === 'string';
-}
-
-function is_array(value) {
-    return Array.isArray(value);
-}
-
-function is_object(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
-}
-
 module.exports = hashish;
 
 /***/ }),
@@ -257,6 +243,29 @@ module.exports = hashish;
 
 
 module.exports = __webpack_require__(0);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function isArray(value) {
+    return Array.isArray(value);
+}
+
+function isObject(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+}
+
+function isString(value) {
+    return typeof value === 'string';
+}
+
+module.exports = { isArray: isArray, isObject: isObject, isString: isString };
 
 /***/ })
 /******/ ]);
