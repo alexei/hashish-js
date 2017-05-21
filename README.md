@@ -70,6 +70,19 @@ Any value that evaluates to `false` will be omitted:
 
 The `children` argument represents an array of children that should be appended to the resulting node. See explanation on [children](#children) below.
 
+#### Selectors
+
+Hashish supports tag (defaults to `div`), class and ID selectors.
+
+Additionally, the following nonstandard pseudo-elements are supported: `:button`, `:checkbox`, `:color`, `:date`, `:datetime-local`, `:email`, `:file`, `:hidden`, `:image`, `:month`, `:number`, `:password`, `:radio`, `:range`, `:reset`, `:search`, `:submit`, `:tel`, `:text`, `:time`, `:url`, `:week`. Each results in an `input` tag with the appropriate `type` attribute. They are provided as syntactic sugar i.e. instead of:
+
+  h('input', {type: 'number'})
+
+One would write:
+
+  h(':number')
+  > <input type="number">
+
 #### Class names
 
 Class names can be specified alongside the `tag` name or in the `attrs` argument. The `class` (or `className`) attribute can either be string:
