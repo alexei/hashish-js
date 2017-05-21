@@ -64,7 +64,7 @@ var hashish =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,9 +76,34 @@ var hashish =
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function isArray(value) {
+    return Array.isArray(value);
+}
+
+function isObject(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+}
+
+function isString(value) {
+    return typeof value === 'string';
+}
+
+module.exports = { isArray: isArray, isObject: isObject, isString: isString };
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var types = __webpack_require__(2);
+var types = __webpack_require__(0);
+var utils = __webpack_require__(3);
+
 var hashish = {};
 
 hashish.createElement = function () {
@@ -96,13 +121,13 @@ hashish.createElement = function () {
         return types.isArray(item);
     }) || [];
 
-    var _hashish$utils$parse_ = hashish.utils.parse_selector(selector),
-        tag = _hashish$utils$parse_.tag,
-        attrs = _hashish$utils$parse_.attrs;
+    var _utils$parse_selector = utils.parse_selector(selector),
+        tag = _utils$parse_selector.tag,
+        attrs = _utils$parse_selector.attrs;
 
     var node = document.createElement(tag);
 
-    attrs.className = hashish.utils.class_names(attrs.className, props['class'] || {}, props['className'] || {});['class', 'className'].forEach(function (key) {
+    attrs.className = utils.class_names(attrs.className, props['class'] || {}, props['className'] || {});['class', 'className'].forEach(function (key) {
         return delete props[key];
     });
     Object.assign(attrs, props);
@@ -154,12 +179,33 @@ hashish.replace = function (node, child) {
     node.parentNode.replaceChild(child, node);
 };
 
-/**
- * Selectors parser
- */
-hashish.utils = {};
-hashish.utils.pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
-hashish.utils.parse_selector = function (selector) {
+module.exports = hashish;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(1);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var types = __webpack_require__(0);
+
+var pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
+
+function parse_selector(selector) {
     var result = {
         tag: 'div',
         attrs: {
@@ -175,7 +221,7 @@ hashish.utils.parse_selector = function (selector) {
         } else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
             result.attrs.id = match[1];
         } else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
-            if (hashish.utils.pseudo_tags.indexOf(match[1]) > -1) {
+            if (pseudo_tags.indexOf(match[1]) > -1) {
                 result.tag = 'input';
                 result.attrs.type = match[1];
             } else {
@@ -188,26 +234,26 @@ hashish.utils.parse_selector = function (selector) {
     }
 
     return result;
-};
+}
 
 /**
  * Class names helpers
  * Inspired by https://github.com/JedWatson/classnames
  */
-hashish.utils.class_names = function () {
+function class_names() {
     var class_names = {};
 
-    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
     }
 
-    Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(hashish.utils.normalize_class_names))));
+    Object.assign.apply(Object, [class_names].concat(_toConsumableArray(args.map(normalize_class_names))));
     return Object.keys(class_names).filter(function (class_name) {
         return !!class_names[class_name];
     }).join(' ');
-};
+}
 
-hashish.utils.normalize_class_names = function (class_names) {
+function normalize_class_names(class_names) {
     if (class_names) {
         if (types.isString(class_names)) {
             class_names = class_names.split(/\s+/);
@@ -231,41 +277,9 @@ hashish.utils.normalize_class_names = function (class_names) {
     } else {
         return {};
     }
-};
-
-module.exports = hashish;
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0);
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function isArray(value) {
-    return Array.isArray(value);
 }
 
-function isObject(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
-}
-
-function isString(value) {
-    return typeof value === 'string';
-}
-
-module.exports = { isArray: isArray, isObject: isObject, isString: isString };
+module.exports = { parse_selector: parse_selector, class_names: class_names, normalize_class_names: normalize_class_names };
 
 /***/ })
 /******/ ]);

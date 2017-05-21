@@ -1,5 +1,5 @@
 const assert = require('assert')
-const hashish = require('../index.js')
+const hashish = require('../index')
 const h = hashish.createElement
 const jsdom = require('mocha-jsdom')
 

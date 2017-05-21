@@ -1,6 +1,5 @@
 const assert = require('assert')
-const hashish = require('../index.js')
-const utils = hashish.utils
+const utils = require('../src/utils')
 
 describe('selector parser', () => {
     it("should correctly parse simple tag, class, id selectors", () => {
