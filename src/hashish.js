@@ -60,11 +60,11 @@ module.exports = function makeHashish(document) {
         })
     }
 
-    function replace(node, child) {
-        if (types.isObject(child) && 'render' in child) {
-            child = child.render()
+    function replace(oldNode, newNode) {
+        if (types.isObject(newNode) && 'render' in newNode) {
+            newNode = newNode.render()
         }
-        node.parentNode.replaceChild(child, node)
+        oldNode.parentNode.replaceChild(newNode, oldNode)
     }
 
     return {createElement, render, replace}
