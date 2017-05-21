@@ -127,7 +127,7 @@ hashish.createElement = function () {
 
     var node = document.createElement(tag);
 
-    attrs.className = utils.class_names(attrs.className, props['class'] || {}, props['className'] || {});['class', 'className'].forEach(function (key) {
+    attrs.className = utils.class_names(attrs.className, props.class || {}, props.className || {});['class', 'className'].forEach(function (key) {
         return delete props[key];
     });
     Object.assign(attrs, props);
@@ -205,6 +205,13 @@ var types = __webpack_require__(0);
 
 var pseudo_tags = ['button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
 
+var patterns = {
+    class: /^\.([^\.\#\:]+)/,
+    id: /^\#([^\.\#\:]+)/,
+    pseudoTag: /^\:([^\.\#\:]+)/,
+    tag: /^([^\.\#]+)/
+};
+
 function parse_selector(selector) {
     var result = {
         tag: 'div',
@@ -216,18 +223,18 @@ function parse_selector(selector) {
 
     var match = void 0;
     while (selector) {
-        if (match = /^\.([^\.\#\:]+)/.exec(selector)) {
+        if (match = patterns.class.exec(selector)) {
             result.attrs.className.push(match[1]);
-        } else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
+        } else if (match = patterns.id.exec(selector)) {
             result.attrs.id = match[1];
-        } else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
+        } else if (match = patterns.pseudoTag.exec(selector)) {
             if (pseudo_tags.indexOf(match[1]) > -1) {
                 result.tag = 'input';
                 result.attrs.type = match[1];
             } else {
                 throw new TypeError("Unknown pseudo-selector " + match[1] + ".");
             }
-        } else if (match = /^([^\.\#]+)/.exec(selector)) {
+        } else if (match = patterns.tag.exec(selector)) {
             result.tag = match[1];
         }
         selector = selector.substring(match[0].length);

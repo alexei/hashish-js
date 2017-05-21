@@ -5,6 +5,13 @@ const pseudo_tags = [
     'hidden', 'image', 'month', 'number', 'password', 'radio', 'range',
     'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week']
 
+const patterns = {
+    class: /^\.([^\.\#\:]+)/,
+    id: /^\#([^\.\#\:]+)/,
+    pseudoTag: /^\:([^\.\#\:]+)/,
+    tag: /^([^\.\#]+)/
+}
+
 function parse_selector(selector) {
     let result = {
         tag: 'div',
@@ -16,13 +23,13 @@ function parse_selector(selector) {
 
     let match
     while (selector) {
-        if (match = /^\.([^\.\#\:]+)/.exec(selector)) {
+        if (match = patterns.class.exec(selector)) {
             result.attrs.className.push(match[1])
         }
-        else if (match = /^\#([^\.\#\:]+)/.exec(selector)) {
+        else if (match = patterns.id.exec(selector)) {
             result.attrs.id = match[1]
         }
-        else if (match = /^\:([^\.\#\:]+)/.exec(selector)) {
+        else if (match = patterns.pseudoTag.exec(selector)) {
             if (pseudo_tags.indexOf(match[1]) > -1) {
                 result.tag = 'input'
                 result.attrs.type = match[1]
@@ -31,7 +38,7 @@ function parse_selector(selector) {
                 throw new TypeError("Unknown pseudo-selector " + match[1] + ".")
             }
         }
-        else if (match = /^([^\.\#]+)/.exec(selector)) {
+        else if (match = patterns.tag.exec(selector)) {
             result.tag = match[1]
         }
         selector = selector.substring(match[0].length)

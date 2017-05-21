@@ -14,8 +14,8 @@ hashish.createElement = function(...args) {
 
     attrs.className = utils.class_names(
         attrs.className,
-        props['class'] || {},
-        props['className'] || {}
+        props.class || {},
+        props.className || {}
     )
     ;['class', 'className'].forEach((key) => delete props[key])
     Object.assign(attrs, props)
