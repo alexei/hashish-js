@@ -20,5 +20,10 @@
     "mocha-jsdom": "^1.1.0",
     "unminified-webpack-plugin": "^1.2.0",
     "webpack": "^2.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexei/hashish-js.git",
+    "web": "https://github.com/alexei/hashish-js"
   }
 }
